@@ -12,8 +12,13 @@ import UIKit
 
 // Presenter > Router
 protocol PokedexMainRouterProtocol {
-    func createTransverseSearcherModule() -> UINavigationController
-    func popViewController(from view: PokedexMainViewControllerProtocol)
+    var view: PokedexMainViewControllerProtocol? { get set }
+    var interactor: (PokedexMainInteractorInputProtocol & PokedexRemoteDataOutputProtocol)? { get set }
+    var presenter: (PokedexMainPresenterProtocol & PokedexMainInteractorOutputProtocol)? { get set }
+    var router: PokedexMainRouterProtocol? { get set }
+    var remoteData: PokedexMainRemoteDataInputProtocol? { get set }
+    
+    func createPokedexMainModule() -> UINavigationController
     func presentPokemonDetail(named pokemonName: String)
 }
 
@@ -40,7 +45,6 @@ protocol PokedexMainPresenterProtocol: AnyObject {
     func isLoadingCell(for indexPath: IndexPath) -> Bool
     
     func reloadSections()
-    func willPopController(from view: PokedexMainViewControllerProtocol)
     func willFetchPokemons()
 }
 
@@ -72,12 +76,19 @@ protocol PokedexMainInteractorOutputProtocol: AnyObject {
 // Interactor > RemoteData
 protocol PokedexMainRemoteDataInputProtocol {
     var interactor: PokedexRemoteDataOutputProtocol? { get set }
-    
+
+    /// This method wil request for a block of pokemons. The number of pokemons retrieved in each block depends entirly on
+    /// the url used as a parameter.
+    /// - Parameters:
+    ///   - urlString: The url which returns the block of pokemons and the next url which contains the next block of pokemons
+    ///   - handler: This callback will handle success or failure response from service
     func requestPokemonBlock(_ urlString: String?, handler: @escaping (Result<PokemonBlock, Error>) -> Void)
     func requestPokemon(_ name: String, handler: @escaping (Result<PokemonDetail, Error>) -> Void)
 }
 
 // RemoteData > Interactor
 protocol PokedexRemoteDataOutputProtocol: AnyObject {
+    func decodePokemonBlock(data: Data, handler: (Result<PokemonBlock, Error>) -> Void)
+    func decodePokemon(data: Data, handler: (Result<PokemonDetail, Error>) -> Void)
     func handleService(error: NSError)
 }

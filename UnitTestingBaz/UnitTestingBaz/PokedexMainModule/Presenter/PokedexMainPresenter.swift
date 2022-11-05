@@ -34,10 +34,6 @@ extension PokedexMainPresenter: PokedexMainPresenterProtocol {
         print("Id", view?.pokemonList[indexPath.row].id)
     }
     
-    func willPopController(from view: PokedexMainViewControllerProtocol) {
-        router?.popViewController(from: view)
-    }
-    
     func reloadSections() {
         view?.reloadInformation()
     }

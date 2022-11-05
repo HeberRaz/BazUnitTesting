@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		90285B7129156E1300A67AE3 /* ShadowStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90285B7029156E1300A67AE3 /* ShadowStyler.swift */; };
+		90285B7929158EE800A67AE3 /* PokedexMainRouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90285B7829158EE800A67AE3 /* PokedexMainRouterTests.swift */; };
+		90285B822915C39300A67AE3 /* PokedexMainViewControllerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90285B812915C39300A67AE3 /* PokedexMainViewControllerMock.swift */; };
+		90285B842915D3CE00A67AE3 /* PokedexMainRemoteDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90285B832915D3CE00A67AE3 /* PokedexMainRemoteDataManagerTests.swift */; };
 		90356D28291059BF0013CDEA /* PokedexMainConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90356D27291059BF0013CDEA /* PokedexMainConstants.swift */; };
 		90356D2A29105AFA0013CDEA /* PokedexMainEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90356D2929105AFA0013CDEA /* PokedexMainEntity.swift */; };
 		90356D2F291068550013CDEA /* PokemonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90356D2E291068550013CDEA /* PokemonCell.swift */; };
@@ -34,8 +37,22 @@
 		9068436A2911F5AC00149C0F /* PokedexDetailEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906843692911F5AC00149C0F /* PokedexDetailEntity.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		90285B7A29158EE800A67AE3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 906764BA291026310027D4B1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 906764C1291026310027D4B1;
+			remoteInfo = UnitTestingBaz;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		90285B7029156E1300A67AE3 /* ShadowStyler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowStyler.swift; sourceTree = "<group>"; };
+		90285B7629158EE800A67AE3 /* UnitTestingBazTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTestingBazTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		90285B7829158EE800A67AE3 /* PokedexMainRouterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexMainRouterTests.swift; sourceTree = "<group>"; };
+		90285B812915C39300A67AE3 /* PokedexMainViewControllerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexMainViewControllerMock.swift; sourceTree = "<group>"; };
+		90285B832915D3CE00A67AE3 /* PokedexMainRemoteDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexMainRemoteDataManagerTests.swift; sourceTree = "<group>"; };
 		90356D27291059BF0013CDEA /* PokedexMainConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexMainConstants.swift; sourceTree = "<group>"; };
 		90356D2929105AFA0013CDEA /* PokedexMainEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexMainEntity.swift; sourceTree = "<group>"; };
 		90356D2E291068550013CDEA /* PokemonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCell.swift; sourceTree = "<group>"; };
@@ -65,6 +82,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		90285B7329158EE800A67AE3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		906764BF291026310027D4B1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -81,6 +105,32 @@
 				90285B7029156E1300A67AE3 /* ShadowStyler.swift */,
 			);
 			path = Reusable;
+			sourceTree = "<group>";
+		};
+		90285B7729158EE800A67AE3 /* UnitTestingBazTests */ = {
+			isa = PBXGroup;
+			children = (
+				90285B7F2915906F00A67AE3 /* MainModuleTests */,
+			);
+			path = UnitTestingBazTests;
+			sourceTree = "<group>";
+		};
+		90285B7F2915906F00A67AE3 /* MainModuleTests */ = {
+			isa = PBXGroup;
+			children = (
+				90285B802915C36800A67AE3 /* Mocks */,
+				90285B7829158EE800A67AE3 /* PokedexMainRouterTests.swift */,
+				90285B832915D3CE00A67AE3 /* PokedexMainRemoteDataManagerTests.swift */,
+			);
+			path = MainModuleTests;
+			sourceTree = "<group>";
+		};
+		90285B802915C36800A67AE3 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				90285B812915C39300A67AE3 /* PokedexMainViewControllerMock.swift */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 		90356D2D291068490013CDEA /* Cells */ = {
@@ -104,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				906764C4291026310027D4B1 /* UnitTestingBaz */,
+				90285B7729158EE800A67AE3 /* UnitTestingBazTests */,
 				906764C3291026310027D4B1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -112,6 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				906764C2291026310027D4B1 /* UnitTestingBaz.app */,
+				90285B7629158EE800A67AE3 /* UnitTestingBazTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -279,6 +331,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		90285B7529158EE800A67AE3 /* UnitTestingBazTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 90285B7E29158EE800A67AE3 /* Build configuration list for PBXNativeTarget "UnitTestingBazTests" */;
+			buildPhases = (
+				90285B7229158EE800A67AE3 /* Sources */,
+				90285B7329158EE800A67AE3 /* Frameworks */,
+				90285B7429158EE800A67AE3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				90285B7B29158EE800A67AE3 /* PBXTargetDependency */,
+			);
+			name = UnitTestingBazTests;
+			productName = UnitTestingBazTests;
+			productReference = 90285B7629158EE800A67AE3 /* UnitTestingBazTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		906764C1291026310027D4B1 /* UnitTestingBaz */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 906764D6291026330027D4B1 /* Build configuration list for PBXNativeTarget "UnitTestingBaz" */;
@@ -306,6 +376,10 @@
 				LastSwiftUpdateCheck = 1310;
 				LastUpgradeCheck = 1310;
 				TargetAttributes = {
+					90285B7529158EE800A67AE3 = {
+						CreatedOnToolsVersion = 13.1;
+						TestTargetID = 906764C1291026310027D4B1;
+					};
 					906764C1291026310027D4B1 = {
 						CreatedOnToolsVersion = 13.1;
 					};
@@ -325,11 +399,19 @@
 			projectRoot = "";
 			targets = (
 				906764C1291026310027D4B1 /* UnitTestingBaz */,
+				90285B7529158EE800A67AE3 /* UnitTestingBazTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		90285B7429158EE800A67AE3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		906764C0291026310027D4B1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -342,6 +424,16 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		90285B7229158EE800A67AE3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				90285B822915C39300A67AE3 /* PokedexMainViewControllerMock.swift in Sources */,
+				90285B842915D3CE00A67AE3 /* PokedexMainRemoteDataManagerTests.swift in Sources */,
+				90285B7929158EE800A67AE3 /* PokedexMainRouterTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		906764BE291026310027D4B1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -374,6 +466,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		90285B7B29158EE800A67AE3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 906764C1291026310027D4B1 /* UnitTestingBaz */;
+			targetProxy = 90285B7A29158EE800A67AE3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		906764D0291026330027D4B1 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -386,6 +486,52 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		90285B7C29158EE800A67AE3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FT46VHZYDK;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.heber.UnitTestingBazTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestingBaz.app/UnitTestingBaz";
+			};
+			name = Debug;
+		};
+		90285B7D29158EE800A67AE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FT46VHZYDK;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.heber.UnitTestingBazTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestingBaz.app/UnitTestingBaz";
+			};
+			name = Release;
+		};
 		906764D4291026330027D4B1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -559,6 +705,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		90285B7E29158EE800A67AE3 /* Build configuration list for PBXNativeTarget "UnitTestingBazTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				90285B7C29158EE800A67AE3 /* Debug */,
+				90285B7D29158EE800A67AE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		906764BD291026310027D4B1 /* Build configuration list for PBXProject "UnitTestingBaz" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

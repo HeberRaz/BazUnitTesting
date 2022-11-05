@@ -30,7 +30,12 @@ protocol URLSessionProtocol { typealias DataTaskResult = (Data?, URLResponse?, E
     func performDataTask(with request: URLRequest, completionHandler: @escaping DataTaskResult) -> URLSessionDataTaskProtocol
 }
 
-class ServiceAPI {
+protocol ServiceApiProtocol {
+    var session: URLSessionProtocol { get }
+    func get(_ endpoint: Endpoint, callback: @escaping (Result<Data,Error>) -> Void)
+}
+
+class ServiceAPI: ServiceApiProtocol {
     let session: URLSessionProtocol
     
     init(session: URLSessionProtocol) {

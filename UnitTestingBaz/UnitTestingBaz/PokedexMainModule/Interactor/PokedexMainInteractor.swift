@@ -63,8 +63,27 @@ extension PokedexMainInteractor: PokedexMainInteractorInputProtocol {
 }
 
 extension PokedexMainInteractor: PokedexRemoteDataOutputProtocol {
+    
     func handleService(error: NSError) {
         // TODO: Return data to presenter
         debugPrint("Returns data to presenter", error)
+    }
+    
+    func decodePokemonBlock(data: Data, handler: (Result<PokemonBlock, Error>) -> Void) {
+        do {
+            let pokemonList: PokemonBlock = try JSONDecoder().decode(PokemonBlock.self, from: data)
+            handler(.success(pokemonList))
+        } catch {
+            handler(.failure(ServiceError.parsingData))
+        }
+    }
+    
+    func decodePokemon(data: Data, handler: (Result<PokemonDetail, Error>) -> Void) {
+        do {
+            let pokemon: PokemonDetail = try JSONDecoder().decode(PokemonDetail.self, from: data)
+            handler(.success(pokemon))
+        } catch {
+            handler(.failure(ServiceError.parsingData))
+        }
     }
 }

@@ -18,7 +18,7 @@ final class PokedexMainRouter {
 
 extension PokedexMainRouter: PokedexMainRouterProtocol {
     
-    func createTransverseSearcherModule() -> UINavigationController {
+    func createPokedexMainModule() -> UINavigationController {
         buildModuleComponents()
         linkDependencies()
         guard let viewController: UIViewController = view as? UIViewController else {
@@ -28,12 +28,7 @@ extension PokedexMainRouter: PokedexMainRouterProtocol {
         return navigationController
     }
     
-    func popViewController(from view: PokedexMainViewControllerProtocol) {
-        guard let viewController: UIViewController = view as? UIViewController else { return }
-        viewController.navigationController?.popViewController(animated: true)
-    }
-    
-    func presentPokemonDetail(named pokemonNake: String) {
+    func presentPokemonDetail(named pokemonName: String) {
         guard let viewController: UIViewController = self.view as? UIViewController else { return }
         let detailRouter = PokedexDetailRouter()
         let vc = detailRouter.createPokedexDetailModule()
@@ -43,10 +38,11 @@ extension PokedexMainRouter: PokedexMainRouterProtocol {
     // MARK: - Private methods
     
     private func buildModuleComponents() {
+        let service: ServiceAPI = ServiceAPI(session: URLSession.shared)
         view = PokedexMainViewController()
         interactor = PokedexMainInteractor()
         presenter = PokedexMainPresenter()
-        remoteData = PokedexMainRemoteDataManager()
+        remoteData = PokedexMainRemoteDataManager(service: service)
         router = self
     }
     

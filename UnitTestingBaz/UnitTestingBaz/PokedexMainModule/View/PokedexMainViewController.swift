@@ -58,10 +58,6 @@ final class PokedexMainViewController: UIViewController {
         tableView.register(PokedexSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: PokedexSectionHeaderView.reuseIdentifier)
         tableView.register(PokemonCell.self, forCellReuseIdentifier: PokemonCell.cellIdentifier)
     }
-    
-    @objc private func closeView() {
-        presenter?.willPopController(from: self)
-    }
 }
 
 extension PokedexMainViewController: PokedexMainViewControllerProtocol {
