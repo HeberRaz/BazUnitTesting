@@ -69,7 +69,7 @@ extension PokedexMainPresenterMock: PokedexMainInteractorOutputProtocol {
         calls.append(.onReceivedData)
     }
     
-    func onReceivedPokemon(_ pokemons: Pokemon) {
+    func onReceivedPokemon(_ pokemons: [Pokemon]) {
         calls.append(.onReceivedPokemon)
     }
     

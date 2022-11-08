@@ -45,13 +45,14 @@ extension PokedexMainPresenter: PokedexMainPresenterProtocol {
         if indexPaths.contains(where: isLoadingCell) {
             guard !isFetchInProgress else { return }
             isFetchInProgress = true
+            view?.showLoader()
             interactor?.fetchPokemonBlock(interactor?.nextBlockUrl ?? "")
         }
     }
     
     func isLoadingCell(for indexPath: IndexPath) -> Bool {
-        let currentCount: Int = model.count
-        let shouldFetchNextPokemonBlock: Bool = indexPath.row >= currentCount - 1
+        let currentCount: Int = view!.pokemonList.count
+        let shouldFetchNextPokemonBlock: Bool = indexPath.row >= currentCount
         return shouldFetchNextPokemonBlock
     }
 }
@@ -67,8 +68,12 @@ extension PokedexMainPresenter: PokedexMainInteractorOutputProtocol {
         }
     }
     
-    func onReceivedPokemon(_ pokemon: Pokemon) {
-        self.model.append(pokemon)
+    func onReceivedPokemon(_ pokemon: [Pokemon]) {
+        var pokemonList = pokemon
+        pokemonList = pokemonList.sorted { previous, next in
+            return previous.id < next.id
+        }
+        self.model = pokemonList
         view?.fillPokemonList()
     }
     

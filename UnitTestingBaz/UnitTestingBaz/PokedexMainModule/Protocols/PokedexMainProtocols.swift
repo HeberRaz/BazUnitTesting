@@ -31,6 +31,8 @@ protocol PokedexMainViewControllerProtocol: AnyObject {
     
     func reloadInformation()
     func fillPokemonList()
+    func showLoader()
+    func hideLoader()
 }
 
 // Presenter > View
@@ -72,7 +74,7 @@ protocol PokedexMainInteractorOutputProtocol: AnyObject {
     var isFetchInProgress: Bool { get set }
     
     func onReceivedData(with pokemonBlock: PokemonBlock)
-    func onReceivedPokemon(_ pokemons: Pokemon)
+    func onReceivedPokemon(_ pokemons: [Pokemon])
     func willShowAlert(with alertModel: AlertModel)
 }
 

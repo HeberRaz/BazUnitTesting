@@ -14,6 +14,8 @@ final class PokedexMainInteractor {
     weak var presenter: PokedexMainInteractorOutputProtocol?
     var remoteData: PokedexMainRemoteDataInputProtocol?
     var nextBlockUrl: String?
+    var pokemonList: [Pokemon] = []
+    let group: DispatchGroup = DispatchGroup()
 }
 
 extension PokedexMainInteractor: PokedexMainInteractorInputProtocol {
@@ -22,6 +24,7 @@ extension PokedexMainInteractor: PokedexMainInteractorInputProtocol {
     }
     
     func fetchDetailFrom(pokemonName: String) {
+        group.enter()
         remoteData?.requestPokemon(pokemonName)
     }
     
@@ -44,12 +47,18 @@ extension PokedexMainInteractor: PokedexRemoteDataOutputProtocol {
         self.nextBlockUrl = pokemonBlock.next
         self.presenter?.isFetchInProgress = false
         self.presenter?.onReceivedData(with: pokemonBlock)
+        group.notify(queue: DispatchQueue.main) {
+            self.presenter?.onReceivedPokemon(self.pokemonList)
+            self.pokemonList = []
+        }
     }
 
     func handleFetchedPokemon(_ pokemonDetail: PokemonDetail) {
         guard let imageData: Data = self.getImageDataFrom(urlString: pokemonDetail.sprites.frontDefault)
         else { return }
-        self.presenter?.onReceivedPokemon(Pokemon(from: pokemonDetail, imageData: imageData))
+        self.pokemonList.append(Pokemon(from: pokemonDetail, imageData: imageData))
+        group.leave()
+//        self.presenter?.onReceivedPokemon(Pokemon(from: pokemonDetail, imageData: imageData))
     }
 
     func handleService(error: Error) {
