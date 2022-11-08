@@ -8,17 +8,22 @@
 import UIKit
 @testable import UnitTestingBaz
 
+enum PokedexMainViewControllerMockCalls {
+    case reloadInformation
+    case fillPokemonList
+}
+
 final class PokedexMainViewControllerMock: UIViewController, PokedexMainViewControllerProtocol {
     var presenter: PokedexMainPresenterProtocol?
     var pokemonList: [PokemonCellModel] = []
     
-    var calls: [String] = []
+    var calls: [PokedexMainViewControllerMockCalls] = []
     
     func reloadInformation() {
-        calls.append(#function)
+        calls.append(.reloadInformation)
     }
     
     func fillPokemonList() {
-        calls.append(#function)
+        calls.append(.fillPokemonList)
     } 
 }

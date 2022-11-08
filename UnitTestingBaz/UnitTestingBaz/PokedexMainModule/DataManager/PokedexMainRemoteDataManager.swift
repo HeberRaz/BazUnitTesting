@@ -23,24 +23,24 @@ final class PokedexMainRemoteDataManager {
 
 extension PokedexMainRemoteDataManager: PokedexMainRemoteDataInputProtocol {
     
-    func requestPokemonBlock(_ urlString: String?, handler: @escaping (Result<PokemonBlock, Error>) -> Void) {
-        service.get(Endpoint.next(urlString: urlString ?? Endpoint.baseURL)) { [weak self] (result: Result<Data, Error>) in
+    func requestPokemonBlock(_ urlString: String?) {
+        service.get(Endpoint.next(urlString: urlString ?? Endpoint.baseURL)) { [weak self] (result: Result<PokemonBlock, Error>) in
             switch result {
-            case .success(let data):
-                self?.interactor?.decodePokemonBlock(data: data, handler: handler)
+            case .success(let pokemonBlock):
+                self?.interactor?.handlePokemonBlockFetch(pokemonBlock)
             case .failure(let error):
-                handler(.failure(error))
+                self?.interactor?.handleService(error: error)
             }
         }
     }
     
-    func requestPokemon(_ name: String, handler: @escaping (Result<PokemonDetail, Error>) -> Void) {
-        service.get(Endpoint.pokemon(nameOrId: name)) { [weak self] (result: Result<Data, Error>) in
+    func requestPokemon(_ name: String) {
+        service.get(Endpoint.pokemon(nameOrId: name)) { [weak self] (result: Result<PokemonDetail, Error>) in
             switch result {
-            case .success(let data):
-                self?.interactor?.decodePokemon(data: data, handler: handler)
+            case .success(let pokemonDetail):
+                self?.interactor?.handleFetchedPokemon(pokemonDetail)
             case .failure(let error):
-                print("error", error)
+                self?.interactor?.handleService(error: error)
             }
         }
     }

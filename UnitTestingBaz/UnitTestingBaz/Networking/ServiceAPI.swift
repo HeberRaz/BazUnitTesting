@@ -32,17 +32,18 @@ protocol URLSessionProtocol { typealias DataTaskResult = (Data?, URLResponse?, E
 
 protocol ServiceApiProtocol {
     var session: URLSessionProtocol { get }
-    func get(_ endpoint: Endpoint, callback: @escaping (Result<Data,Error>) -> Void)
+    func get<T: Decodable>(_ endpoint: Endpoint, callback: @escaping (Result<T,Error>) -> Void)
 }
 
 class ServiceAPI: ServiceApiProtocol {
+    
     let session: URLSessionProtocol
     
     init(session: URLSessionProtocol) {
         self.session = session
     }
     
-    func get(_ endpoint: Endpoint, callback: @escaping (Result<Data,Error>) -> Void) {
+    func get<T: Decodable>(_ endpoint: Endpoint, callback: @escaping (Result<T,Error>) -> Void) {
         let request = endpoint.request
         let task = session.performDataTask(with: request) { (data, response, error) in
             if let error: Error = error {
@@ -51,7 +52,7 @@ class ServiceAPI: ServiceApiProtocol {
             }
             
             guard let data: Data = data else {
-                callback(.failure(ServiceError.response))
+                callback(.failure(ServiceError.noData))
                 return
             }
             
@@ -67,8 +68,14 @@ class ServiceAPI: ServiceApiProtocol {
                 return
             }
             
-            callback(.success(data))
+            do {
+                let decodedData = try JSONDecoder().decode(T.self, from: data)
+                callback(.success(decodedData))
+                
+            } catch {
+                callback(.failure(ServiceError.parsingData))
+            }
         }
         task.resume()
-    }    
+    }
 }

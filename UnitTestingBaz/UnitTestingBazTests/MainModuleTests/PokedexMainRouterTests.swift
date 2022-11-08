@@ -56,33 +56,33 @@ class PokedexMainRouterTests: XCTestCase {
         // Given
         let pokemonName: String = "Pikachu"
         let viewController: UIViewController = try XCTUnwrap(sut.view as? UIViewController)
-        let mockNavigationController = SpyNavigationController(rootViewController: viewController)
+        let spyNavigationController = SpyNavigationController(rootViewController: viewController)
         // When
         sut.presentPokemonDetail(named: pokemonName)
         // Then
-        XCTAssert(mockNavigationController.pushedViewController is PokedexDetailViewController)
+        XCTAssert(spyNavigationController.pushedViewController is PokedexDetailViewController)
     }
     
     func testPresentPokemonDetail_whenNotCastedAsDetailViewController_returnsFalse() throws {
         // Given
         let pokemonName: String = "Pikachu"
         let viewController: UIViewController = try XCTUnwrap(sut.view as? UIViewController)
-        let mockNavigationController = SpyNavigationController(rootViewController: viewController)
+        let spyNavigationController = SpyNavigationController(rootViewController: viewController)
         // When
         sut.presentPokemonDetail(named: pokemonName)
         // Then
-        XCTAssertFalse(mockNavigationController.pushedViewController is PokedexMainViewController)
+        XCTAssertFalse(spyNavigationController.pushedViewController is PokedexMainViewController)
+    }
+    
+    func testShowAlert_willPresentUIAlertControllerOnScreen() throws {
+        // Given
+        let viewController = sut.view as! UIViewController
+        let spyNavigationController = SpyNavigationController(rootViewController: viewController)
+        // When
+        sut.showAlert(with: AlertModel(serviceError: .internalServer), handler: {})
+        // Then
+        XCTAssert(spyNavigationController.pushedViewController is UIAlertController)
     }
 }
 
-import UIKit
- 
-class SpyNavigationController: UINavigationController {
-    
-    var pushedViewController: UIViewController?
-    
-    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
-        pushedViewController = viewController
-        super.pushViewController(viewController, animated: true)
-    }
-}
+

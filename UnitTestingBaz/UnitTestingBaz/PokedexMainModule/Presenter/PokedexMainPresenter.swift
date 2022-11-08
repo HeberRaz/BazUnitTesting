@@ -22,7 +22,6 @@ final class PokedexMainPresenter {
     // MARK: - Private properties
     
     private typealias Constants = PokedexMainConstants
-    private var nextBlockUrl: String?
 }
 
 extension PokedexMainPresenter: PokedexMainPresenterProtocol {
@@ -30,8 +29,8 @@ extension PokedexMainPresenter: PokedexMainPresenterProtocol {
     func didSelectRowAt(_ indexPath: IndexPath) {
         let pokemonName: String = view?.pokemonList[indexPath.row].name ?? ""
         router?.presentPokemonDetail(named: pokemonName)
-        print("selected pokemon", pokemonName)
-        print("Id", view?.pokemonList[indexPath.row].id)
+//        debugPrint("selected pokemon", pokemonName)
+//        debugPrint("Id", view?.pokemonList[indexPath.row].id)
     }
     
     func reloadSections() {
@@ -46,7 +45,7 @@ extension PokedexMainPresenter: PokedexMainPresenterProtocol {
         if indexPaths.contains(where: isLoadingCell) {
             guard !isFetchInProgress else { return }
             isFetchInProgress = true
-            interactor?.fetchPokemonBlock(nextBlockUrl ?? "")
+            interactor?.fetchPokemonBlock(interactor?.nextBlockUrl ?? "")
         }
     }
     
@@ -60,11 +59,10 @@ extension PokedexMainPresenter: PokedexMainPresenterProtocol {
 extension PokedexMainPresenter: PokedexMainInteractorOutputProtocol {
     
     func onReceivedData(with pokemonBlock: PokemonBlock) {
-        guard let pokemonResults: [PokemonBlockResult] = pokemonBlock.results else { return }
-        self.nextBlockUrl = pokemonBlock.next
+        let pokemonResults: [PokemonBlockResult] = pokemonBlock.results
         self.totalPokemonCount = pokemonBlock.count
         for pokemon in pokemonResults {
-            guard let pokemonName: String = pokemon.name else { return }
+            let pokemonName: String = pokemon.name
             interactor?.fetchDetailFrom(pokemonName: pokemonName)
         }
     }
@@ -72,5 +70,11 @@ extension PokedexMainPresenter: PokedexMainInteractorOutputProtocol {
     func onReceivedPokemon(_ pokemon: Pokemon) {
         self.model.append(pokemon)
         view?.fillPokemonList()
+    }
+    
+    func willShowAlert(with alertModel: AlertModel) {
+        router?.showAlert(with: alertModel) {
+            debugPrint("Algo puede hacerse aquí")
+        }
     }
 }

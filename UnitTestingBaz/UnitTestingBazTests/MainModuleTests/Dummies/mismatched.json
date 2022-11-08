@@ -1,0 +1,3 @@
+{
+    "someValue": "that should produce error when parsed"
+}

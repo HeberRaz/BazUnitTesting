@@ -7,14 +7,14 @@
 
 import UIKit
 
-protocol PokemonCellDelegate: AnyObject {
-     func somethingTheCellShouldDo()
-}
+//protocol PokemonCellDelegate: AnyObject {
+//     func somethingTheCellShouldDo()
+//}
 
 final class PokemonCell: UITableViewCell {
     
     // MARK: - Properties
-    weak var delegate: PokemonCellDelegate?
+//    weak var delegate: PokemonCellDelegate?
     static var cellIdentifier: String = "PokemonCell"
     
     

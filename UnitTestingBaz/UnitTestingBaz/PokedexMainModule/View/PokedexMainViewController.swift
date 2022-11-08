@@ -15,7 +15,7 @@ final class PokedexMainViewController: UIViewController {
     var pokemonList: [PokemonCellModel] = []
     
     // MARK: - Private properties
-    private let tableView: UITableView = UITableView()
+    private var tableView: UITableView = UITableView()
     private typealias Constants = PokedexMainConstants
     
     override func viewDidLoad() {
@@ -27,7 +27,7 @@ final class PokedexMainViewController: UIViewController {
         super.viewWillAppear(animated)
         view.backgroundColor = .white
         setupNavigationBar()
-        setupTableView()
+        setup(tableView)
         registerCells()
     }
     
@@ -37,7 +37,8 @@ final class PokedexMainViewController: UIViewController {
         title = "Pokemon"
     }
     
-    private func setupTableView() {
+    private func setup(_ pokemonTableView: UITableView) {
+        self.tableView = pokemonTableView
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
         tableView.separatorStyle = .none
@@ -107,7 +108,7 @@ extension PokedexMainViewController: UITableViewDataSource {
         }
         let displayableCount: Int = count == presenter?.totalPokemonCount
         ? presenter?.totalPokemonCount ?? .zero
-        : count + 20
+        : count + 1
         return displayableCount
     }
     
@@ -126,10 +127,5 @@ extension PokedexMainViewController: UITableViewDataSource {
 extension PokedexMainViewController: UITableViewDataSourcePrefetching {
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         presenter?.shouldPrefetch(at: indexPaths)
-    }
-}
-
-extension PokedexMainViewController: PokemonCellDelegate {
-    func somethingTheCellShouldDo() {
     }
 }

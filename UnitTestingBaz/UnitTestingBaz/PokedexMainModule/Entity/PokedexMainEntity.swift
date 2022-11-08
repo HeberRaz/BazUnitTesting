@@ -27,17 +27,17 @@ struct PokemonCellModel: CustomCellViewData {
 // MARK: - Pokeomon Block
 
 struct PokemonBlock: Decodable {
-    let count: Int?
-    let next: String?
+    let count: Int
+    let next: String
     let previous: String?
-    let results: [PokemonBlockResult]?
+    let results: [PokemonBlockResult]
 }
 
 // MARK: - Pokemon Result
 
 struct PokemonBlockResult: Decodable {
-    let name: String?
-    let url: String?
+    let name: String
+    let url: String
 }
 
 struct PokemonDetail: Decodable {
@@ -63,5 +63,27 @@ struct Pokemon {
         self.id = detail.id
         self.name = detail.name
         self.frontImageData = imageData
+    }
+}
+
+struct AlertModel {
+    let title: String
+    let message: String
+    
+    init(serviceError: ServiceError) {
+        switch serviceError {
+        case .noData:
+            title = "Error when loading data"
+            message = "Try again in a few minutes"
+        case .response:
+            title = "Service is not responding"
+            message = "Bad URL request"
+        case .parsingData:
+            title = "Some error occured"
+            message = "Please contact your administrator or report your issues at:\nTel: 0118-999-881-999"
+        case .internalServer:
+            title = "Internal server error"
+            message = "Please wait"
+        }
     }
 }

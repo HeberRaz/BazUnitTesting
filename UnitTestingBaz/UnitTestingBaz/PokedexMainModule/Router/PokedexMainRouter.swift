@@ -35,6 +35,21 @@ extension PokedexMainRouter: PokedexMainRouterProtocol {
         viewController.navigationController?.pushViewController(vc, animated: true)
     }
     
+    func showAlert(with alertModel: AlertModel, handler: @escaping () -> Void) {
+        guard let viewController: UIViewController = self.view as? UIViewController else { return }
+        let alert = UIAlertController(title: alertModel.title,
+                                      message: alertModel.message,
+                                      preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {_ in
+            handler()
+        }))
+        guaranteeMainThread {
+//            viewController.present(alert, animated: true, completion: nil)
+            viewController.navigationController?.present(alert, animated: true, completion: nil)
+        }
+        
+    }
+    
     // MARK: - Private methods
     
     private func buildModuleComponents() {
@@ -54,5 +69,13 @@ extension PokedexMainRouter: PokedexMainRouterProtocol {
         interactor?.remoteData = self.remoteData
         interactor?.presenter = self.presenter
         remoteData?.interactor = self.interactor
+    }
+    
+    private func guaranteeMainThread(_ work: @escaping () -> Void) {
+        if Thread.isMainThread {
+            work()
+        } else {
+            DispatchQueue.main.async(execute: work)
+        }
     }
 }

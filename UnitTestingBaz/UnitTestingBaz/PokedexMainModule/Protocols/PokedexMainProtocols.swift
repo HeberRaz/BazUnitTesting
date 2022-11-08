@@ -20,6 +20,7 @@ protocol PokedexMainRouterProtocol {
     
     func createPokedexMainModule() -> UINavigationController
     func presentPokemonDetail(named pokemonName: String)
+    func showAlert(with alertModel: AlertModel, handler: @escaping () -> Void)
 }
 
 // View > Presenter
@@ -52,6 +53,7 @@ protocol PokedexMainPresenterProtocol: AnyObject {
 protocol PokedexMainInteractorInputProtocol {
     var presenter: PokedexMainInteractorOutputProtocol? { get set }
     var remoteData: PokedexMainRemoteDataInputProtocol? { get set }
+    var nextBlockUrl: String? { get set }
     
     func fetchPokemonBlock(_ urlString: String?)
     func fetchDetailFrom(pokemonName: String)
@@ -71,6 +73,7 @@ protocol PokedexMainInteractorOutputProtocol: AnyObject {
     
     func onReceivedData(with pokemonBlock: PokemonBlock)
     func onReceivedPokemon(_ pokemons: Pokemon)
+    func willShowAlert(with alertModel: AlertModel)
 }
 
 // Interactor > RemoteData
@@ -82,13 +85,13 @@ protocol PokedexMainRemoteDataInputProtocol {
     /// - Parameters:
     ///   - urlString: The url which returns the block of pokemons and the next url which contains the next block of pokemons
     ///   - handler: This callback will handle success or failure response from service
-    func requestPokemonBlock(_ urlString: String?, handler: @escaping (Result<PokemonBlock, Error>) -> Void)
-    func requestPokemon(_ name: String, handler: @escaping (Result<PokemonDetail, Error>) -> Void)
+    func requestPokemonBlock(_ urlString: String?)
+    func requestPokemon(_ name: String)
 }
 
 // RemoteData > Interactor
 protocol PokedexRemoteDataOutputProtocol: AnyObject {
-    func decodePokemonBlock(data: Data, handler: (Result<PokemonBlock, Error>) -> Void)
-    func decodePokemon(data: Data, handler: (Result<PokemonDetail, Error>) -> Void)
-    func handleService(error: NSError)
+    func handlePokemonBlockFetch(_ pokemonBlock: PokemonBlock)
+    func handleFetchedPokemon(_ pokemonDetail: PokemonDetail)
+    func handleService(error: Error)
 }
