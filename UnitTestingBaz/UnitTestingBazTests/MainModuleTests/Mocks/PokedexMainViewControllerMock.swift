@@ -14,6 +14,12 @@ enum PokedexMainViewControllerMockCalls {
 }
 
 final class PokedexMainViewControllerMock: UIViewController, PokedexMainViewControllerProtocol {
+    func showLoader() {
+    }
+    
+    func hideLoader() {
+    }
+    
     var presenter: PokedexMainPresenterProtocol?
     var pokemonList: [PokemonCellModel] = []
     

@@ -43,17 +43,16 @@ extension PokedexMainRouter: PokedexMainRouterProtocol {
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {_ in
             handler()
         }))
-        guaranteeMainThread {
-//            viewController.present(alert, animated: true, completion: nil)
+        DispatchHelper.guaranteeMainThread {
             viewController.navigationController?.present(alert, animated: true, completion: nil)
         }
-        
     }
     
     // MARK: - Private methods
     
     private func buildModuleComponents() {
         let service: ServiceAPI = ServiceAPI(session: URLSession.shared)
+        let serviceDecorator = MainQueueDispatchDecorator(service)
         view = PokedexMainViewController()
         interactor = PokedexMainInteractor()
         presenter = PokedexMainPresenter()
@@ -72,6 +71,44 @@ extension PokedexMainRouter: PokedexMainRouterProtocol {
     }
     
     private func guaranteeMainThread(_ work: @escaping () -> Void) {
+        if Thread.isMainThread {
+            work()
+        } else {
+            DispatchQueue.main.async(execute: work)
+        }
+    }
+}
+
+final class MainQueueDispatchDecorator: ServiceApiProtocol {
+    var session: URLSessionProtocol
+    private let decorator: ServiceApiProtocol
+
+    init(_ decorator: ServiceApiProtocol) {
+        self.session = URLSession.shared
+        self.decorator = decorator
+    }
+
+    func get<T:Decodable>(_ endpoint: Endpoint, callback: @escaping (Result<T, Error>) -> Void) {
+        DispatchQueue.global(qos: .userInteractive).async {
+            self.decorator.get(endpoint) { (result: Result<T, Error>) in
+                self.guaranteeMainThread {
+                    callback(result)
+                }
+            }
+        }
+    }
+
+    private func guaranteeMainThread(_ work: @escaping () -> Void) {
+        if Thread.isMainThread {
+            work()
+        } else {
+            DispatchQueue.main.async(execute: work)
+        }
+    }
+}
+
+struct DispatchHelper {
+    static func guaranteeMainThread(_ work: @escaping () -> Void) {
         if Thread.isMainThread {
             work()
         } else {

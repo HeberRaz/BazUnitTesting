@@ -44,13 +44,10 @@ final class PokemonCell: UITableViewCell {
     // MARK: - Protocol methods
     func setup(with data: PokemonCellModel?) {
         guard let model: PokemonCellModel = data else {
-            name.text = "Loading..."
-            icon.image = UIImage(named: "pokemon_default")
+            setupLoadingCell()
             return
         }
-        name.text = model.name
-        icon.image = model.icon
-        (topRibbon.subviews.last as? UILabel)?.text = "No. \(model.id)"
+        setupPokemonCell(with: model)
     }
     
     // MARK: - Private functions
@@ -63,16 +60,17 @@ final class PokemonCell: UITableViewCell {
         innerContentView.addSubview(topRibbon)
         innerContentView.addSubview(name)
         innerContentView.addSubview(icon)
-        
-        innerContentView.heightAnchor.constraint(equalToConstant: cellHeight).isActive = true
-        
+        setInnerContentViewAnchors()
+    }
+    
+    private func setInnerContentViewAnchors() {
         NSLayoutConstraint.activate([
+            innerContentView.heightAnchor.constraint(equalToConstant: cellHeight),
             innerContentView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.commonCellPadding),
             innerContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.commonCellPadding),
             innerContentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.commonCellPadding),
             innerContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
         ])
-        ShadowStyler.apply(to: innerContentView)
     }
     
     private func setupTopRibbon() {
@@ -140,5 +138,22 @@ final class PokemonCell: UITableViewCell {
         ])
         title.textAlignment = .center
         title.font = .systemFont(ofSize: 12)
+    }
+    
+    private func setupLoadingCell() {
+        innerContentView.showBlurLoader()
+        name.text = ""
+        icon.image = UIImage(named: "pokemon_default")
+        topRibbon.isHidden = true
+        ShadowStyler.remove(from: innerContentView)
+    }
+    
+    private func setupPokemonCell(with model: PokemonCellModel) {
+        innerContentView.removeBluerLoader()
+        name.text = model.name
+        icon.image = model.icon
+        topRibbon.isHidden = false
+        (topRibbon.subviews.last as? UILabel)?.text = "No. \(model.id)"
+        ShadowStyler.apply(to: innerContentView)
     }
 }

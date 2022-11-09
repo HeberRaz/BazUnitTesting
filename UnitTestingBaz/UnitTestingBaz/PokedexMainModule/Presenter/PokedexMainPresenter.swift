@@ -29,8 +29,6 @@ extension PokedexMainPresenter: PokedexMainPresenterProtocol {
     func didSelectRowAt(_ indexPath: IndexPath) {
         let pokemonName: String = view?.pokemonList[indexPath.row].name ?? ""
         router?.presentPokemonDetail(named: pokemonName)
-//        debugPrint("selected pokemon", pokemonName)
-//        debugPrint("Id", view?.pokemonList[indexPath.row].id)
     }
     
     func reloadSections() {
@@ -45,7 +43,6 @@ extension PokedexMainPresenter: PokedexMainPresenterProtocol {
         if indexPaths.contains(where: isLoadingCell) {
             guard !isFetchInProgress else { return }
             isFetchInProgress = true
-            view?.showLoader()
             interactor?.fetchPokemonBlock(interactor?.nextBlockUrl ?? "")
         }
     }

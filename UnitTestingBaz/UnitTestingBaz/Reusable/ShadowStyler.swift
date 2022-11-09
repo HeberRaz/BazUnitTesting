@@ -29,4 +29,20 @@ struct ShadowStyler {
         view.layer.shouldRasterize = true
         view.layer.rasterizationScale = UIScreen.main.scale
     }
+    
+    static func remove(from view: UIView) {
+        view.layer.cornerRadius = 0 //Constants.commonCornerRadius
+        view.backgroundColor = view.backgroundColor ?? .white
+        // Border
+        view.layer.borderWidth = 0 //Constants.commonCellBorderWidth
+        view.layer.borderColor = .none // UIColor.white.cgColor
+
+        // Shadow
+        view.layer.shadowColor = .none // Constants.commonCellShadowColor
+        view.layer.shadowOffset = .zero // Constants.commonCellShadowOffset
+        view.layer.shadowOpacity = 0 // Constants.commonCellShadowOpacity
+        view.layer.shadowRadius = 0 // Constants.commonCellShadowRadius
+        view.layer.shouldRasterize = false
+        view.layer.rasterizationScale = UIScreen.main.scale
+    }
 }

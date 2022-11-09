@@ -24,7 +24,7 @@ final class PokedexMainRemoteDataManager {
 extension PokedexMainRemoteDataManager: PokedexMainRemoteDataInputProtocol {
     
     func requestPokemonBlock(_ urlString: String?) {
-        service.get(Endpoint.next(urlString: urlString ?? Endpoint.baseURL)) { [weak self] (result: Result<PokemonBlock, Error>) in
+        service.get(Endpoint.next(urlString: urlString ?? Endpoint.initialURL)) { [weak self] (result: Result<PokemonBlock, Error>) in
             switch result {
             case .success(let pokemonBlock):
                 self?.interactor?.handlePokemonBlockFetch(pokemonBlock)

@@ -58,7 +58,6 @@ extension PokedexMainInteractor: PokedexRemoteDataOutputProtocol {
         else { return }
         self.pokemonList.append(Pokemon(from: pokemonDetail, imageData: imageData))
         group.leave()
-//        self.presenter?.onReceivedPokemon(Pokemon(from: pokemonDetail, imageData: imageData))
     }
 
     func handleService(error: Error) {

@@ -64,7 +64,6 @@ class ServiceAPITests: XCTestCase {
             default:
                 break
             }
-            print(result)
         }
         wait(for: [expectation], timeout: 0.1)
         XCTAssertNotNil(expectedError)
@@ -84,7 +83,6 @@ class ServiceAPITests: XCTestCase {
             default:
                 break
             }
-            print(result)
         }
         wait(for: [expectation], timeout: 0.1)
         let unwrappedError = try XCTUnwrap(expectedError)
@@ -155,7 +153,6 @@ class ServiceAPITests: XCTestCase {
             default:
                 break
             }
-            print(result)
         }
         wait(for: [expectation], timeout: 0.1)
         let unwrappedError = try XCTUnwrap(expectedError)
@@ -178,7 +175,6 @@ class ServiceAPITests: XCTestCase {
             default:
                 break
             }
-            print(result)
         }
         wait(for: [expectation], timeout: 0.1)
         let decodedDataCount: Int = try XCTUnwrap(pokemonBlock?.count)

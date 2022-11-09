@@ -9,6 +9,7 @@ import Foundation
 
 enum Endpoint {
     static let baseURL = "https://pokeapi.co/api/v2/pokemon/"
+    static let initialURL = "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=20"
     
     case next(urlString: String)
     case pokemon(nameOrId: String)

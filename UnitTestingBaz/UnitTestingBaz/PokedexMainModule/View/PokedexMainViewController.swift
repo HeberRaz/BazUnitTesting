@@ -28,8 +28,8 @@ final class PokedexMainViewController: UIViewController {
         view.backgroundColor = .white
         setupNavigationBar()
         setup(tableView)
+        showLoader()
         registerCells()
-        view.showBlurLoader()
     }
     
     // MARK: - Private methods
@@ -43,17 +43,23 @@ final class PokedexMainViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
         tableView.separatorStyle = .none
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.prefetchDataSource = self
-        
+        setTableViewAnchors()
+        setTableViewDelegates()
+    }
+    
+    private func setTableViewAnchors() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Constants.borderPadding),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.borderPadding),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.borderPadding),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Constants.borderPadding)
         ])
+    }
+    
+    private func setTableViewDelegates() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.prefetchDataSource = self
     }
     
     private func registerCells() {
@@ -64,43 +70,24 @@ final class PokedexMainViewController: UIViewController {
 
 extension PokedexMainViewController: PokedexMainViewControllerProtocol {
     func showLoader() {
-        DispatchQueue.main.async {
-            self.view.showBlurLoader()
-        }
-        
+        self.view.showBlurLoader()
     }
     
     func hideLoader() {
-        DispatchQueue.main.async {
-            self.view.removeBluerLoader()
-        }
-        
+        self.view.removeBluerLoader()
     }
     
-
     func reloadInformation() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
+        self.tableView.reloadData()
     }
     
     func fillPokemonList() {
         for pokemon in self.presenter!.model {
             self.pokemonList.append(PokemonCellModel(from: pokemon))
         }
+        hideLoader()
+        tableView.reloadData()
         print("--> pasó aquí con \(pokemonList.count) pokemones ya cargados")
-        if presenter?.model.first?.id == 1 {
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                self.view.removeBluerLoader()
-            }
-        } else {
-            DispatchQueue.main.async {
-                self.tableView.reloadRows(at: self.calculateIndexPathsToReload(from: self.presenter!.model), with: .fade)
-                self.view.removeBluerLoader()
-            }
-        }
-        
     }
     
     private func calculateIndexPathsToReload(from newPokemons: [Pokemon]) -> [IndexPath] {
@@ -140,14 +127,11 @@ extension PokedexMainViewController: UITableViewDelegate {
 extension PokedexMainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let count: Int = presenter?.model.count else {
-            return .zero
-        }
-//        let displayableCount: Int = count == presenter?.totalPokemonCount
-//        ? presenter?.totalPokemonCount ?? .zero
-//        : count + 1
-//        return displayableCount
-        return presenter?.totalPokemonCount ?? .zero
+        let count: Int = pokemonList.count
+        let displayableCount: Int = count == presenter?.totalPokemonCount
+        ? presenter?.totalPokemonCount ?? .zero
+        : count + 1
+        return displayableCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -171,43 +155,49 @@ extension PokedexMainViewController: UITableViewDataSourcePrefetching {
 
 extension UIView {
     func showBlurLoader() {
-      let blurLoader = BlurLoader(frame: self.frame)
-      self.addSubview(blurLoader)
+        let blurLoader = BlurLoader(frame: self.frame)
+        self.addSubview(blurLoader)
     }
-
+    
     func removeBluerLoader() {
-      if let blurLoader = self.subviews.first(where: { $0 is BlurLoader }) {
-        blurLoader.removeFromSuperview()
-      }
+        if let blurLoader = self.subviews.first(where: { $0 is BlurLoader }) {
+            blurLoader.removeFromSuperview()
+        }
     }
 }
 
 class BlurLoader: UIView {
-
-  var blurEffectView: UIVisualEffectView?
-
-  override init(frame: CGRect) {
-    let blurEffect = UIBlurEffect(style: .light)
-    let blurEffectView = UIVisualEffectView(effect: blurEffect)
-    blurEffectView.frame = frame
-    blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    self.blurEffectView = blurEffectView
-    super.init(frame: frame)
-    backgroundColor = .systemCyan
-    addSubview(blurEffectView)
-    addLoader()
-  }
-
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-
-  private func addLoader() {
-    guard let blurEffectView = blurEffectView else { return }
-    let activityIndicator = UIActivityIndicatorView(style: .large)
-    activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
-    blurEffectView.contentView.addSubview(activityIndicator)
-    activityIndicator.center = blurEffectView.contentView.center
-    activityIndicator.startAnimating()
-  }
+    
+    var blurEffectView: UIVisualEffectView?
+    let activityIndicator = UIActivityIndicatorView(style: .medium)
+    
+    override init(frame: CGRect) {
+        let blurEffect = UIBlurEffect(style: .light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.backgroundColor = .clear
+        blurEffectView.frame = frame
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.blurEffectView = blurEffectView
+        super.init(frame: frame)
+        self.layer.cornerRadius = 8
+        self.layer.masksToBounds = true
+        backgroundColor = .lightGray.withAlphaComponent(0.1)
+        blurEffectView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(blurEffectView)
+        addLoader()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func addLoader() {
+        guard let blurEffectView = blurEffectView else { return }
+        
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        blurEffectView.contentView.addSubview(activityIndicator)
+        activityIndicator.center = blurEffectView.contentView.center
+        activityIndicator.color = .black
+        activityIndicator.startAnimating()
+    }
 }
