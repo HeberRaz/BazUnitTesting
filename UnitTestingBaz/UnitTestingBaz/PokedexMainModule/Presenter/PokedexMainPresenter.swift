@@ -76,7 +76,7 @@ extension PokedexMainPresenter: PokedexMainInteractorOutputProtocol {
     
     func willShowAlert(with alertModel: AlertModel) {
         router?.showAlert(with: alertModel) {
-            debugPrint("Algo puede hacerse aquí")
+            self.view?.hideLoader()
         }
     }
 }
