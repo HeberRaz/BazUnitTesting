@@ -26,7 +26,7 @@ class ServiceAPITests: XCTestCase {
     }
     
     
-    func test_get_request_withURL() {
+    func test_getPokemonRequest_returnsCorrectURL() {
         // Given
         let mockedName: String = "nameMock"
         // When
@@ -35,9 +35,18 @@ class ServiceAPITests: XCTestCase {
         XCTAssertEqual(Endpoint.baseURL + mockedName, urlSessionMock.url?.absoluteString)
     }
     
+    func test_getNextPokemonBlockRequest_returnsCorrectURL() {
+        // Given
+        let nextUrl: String = "nexturl.mock"
+        // When
+        sut.get(.next(urlString: nextUrl)) { (result: Result<PokemonDetail, Error>) in }
+        // Then
+        XCTAssertEqual(nextUrl, urlSessionMock.url?.absoluteString)
+    }
+    
     func testNetworkResponse() {
         // Given
-        let expectation = expectation(description: "tweet timeline expectation")
+        let expectation = expectation(description: "pokemon service expectation")
         var response = false
         
         // When
@@ -51,7 +60,7 @@ class ServiceAPITests: XCTestCase {
     
     func testResponseWithError() {
         // Given
-        let expectation = expectation(description: "tweet timeline expectation")
+        let expectation = expectation(description: "pokemon service expectation")
         var expectedError: ServiceError?
         urlSessionMock.error = ServiceError.response
         
@@ -72,7 +81,7 @@ class ServiceAPITests: XCTestCase {
     
     func testResponseWithNoData() throws {
         // Given
-        let expectation = expectation(description: "tweet timeline expectation")
+        let expectation = expectation(description: "pokemon service expectation")
         var expectedError: ServiceError?
         
         // When
@@ -93,7 +102,7 @@ class ServiceAPITests: XCTestCase {
     
     func testResponseWithFailingStatusCode() throws {
         // Given
-        let expectation = expectation(description: "tweet timeline expectation")
+        let expectation = expectation(description: "pokemon service expectation")
         var expectedError: ServiceError?
         urlSessionMock.urlResponse = HTTPURLResponse(
             url: Endpoint.pokemon(nameOrId: "").request.url!,
@@ -119,7 +128,7 @@ class ServiceAPITests: XCTestCase {
     
     func testRequestWithResponseError() throws {
         // Given
-        let expectation = expectation(description: "tweet timeline expectation")
+        let expectation = expectation(description: "pokemon service expectation")
         var expectedError: ServiceError?
         urlSessionMock.data = Data()
         
@@ -140,7 +149,7 @@ class ServiceAPITests: XCTestCase {
     
     func testResponseWithParsingError() throws {
         // Given
-        let expectation = expectation(description: "tweet timeline expectation")
+        let expectation = expectation(description: "pokemon service expectation")
         var expectedError: ServiceError?
         urlSessionMock.data = Data()
         urlSessionMock.urlResponse = HTTPURLResponse()
@@ -164,7 +173,7 @@ class ServiceAPITests: XCTestCase {
     
     func testResponseWithParsingSuccess() throws {
         // Given
-        let expectation = expectation(description: "tweet timeline expectation")
+        let expectation = expectation(description: "pokemon service expectation")
         urlSessionMock.data = PokedexDummy().blockData
         urlSessionMock.urlResponse = HTTPURLResponse()
         var pokemonBlock: PokemonBlock?

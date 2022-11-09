@@ -19,7 +19,7 @@ final class PokemonCell: UITableViewCell {
     
     
     // MARK: - Private properties
-    private let topRibbon: UILabel = UILabel()
+    private let topRibbon: UIView = UIView()
     private let name: UILabel = UILabel()
     private let icon: UIImageView = UIImageView()
     private let innerContentView: UIView = UIView()

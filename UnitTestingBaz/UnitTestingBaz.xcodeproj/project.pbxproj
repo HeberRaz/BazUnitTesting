@@ -50,6 +50,7 @@
 		90937638291A030700CECB26 /* PokedexMainPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90937637291A030600CECB26 /* PokedexMainPresenterTests.swift */; };
 		9093763A291A051000CECB26 /* PokedexMainRouterMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90937639291A051000CECB26 /* PokedexMainRouterMock.swift */; };
 		9093763C291AC2B100CECB26 /* PokedexMainViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9093763B291AC2B100CECB26 /* PokedexMainViewControllerTests.swift */; };
+		9093763E291B074500CECB26 /* MainQueueDispatchDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9093763D291B074500CECB26 /* MainQueueDispatchDecorator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +110,7 @@
 		90937637291A030600CECB26 /* PokedexMainPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexMainPresenterTests.swift; sourceTree = "<group>"; };
 		90937639291A051000CECB26 /* PokedexMainRouterMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexMainRouterMock.swift; sourceTree = "<group>"; };
 		9093763B291AC2B100CECB26 /* PokedexMainViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexMainViewControllerTests.swift; sourceTree = "<group>"; };
+		9093763D291B074500CECB26 /* MainQueueDispatchDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainQueueDispatchDecorator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +209,7 @@
 			children = (
 				9056F0682910A107000C98C2 /* Endpoint.swift */,
 				9056F06A2910AA5F000C98C2 /* ServiceAPI.swift */,
+				9093763D291B074500CECB26 /* MainQueueDispatchDecorator.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -530,6 +533,7 @@
 				906764C6291026310027D4B1 /* AppDelegate.swift in Sources */,
 				90285B7129156E1300A67AE3 /* ShadowStyler.swift in Sources */,
 				906764C8291026310027D4B1 /* SceneDelegate.swift in Sources */,
+				9093763E291B074500CECB26 /* MainQueueDispatchDecorator.swift in Sources */,
 				906843622911F57E00149C0F /* PokedexDetailRemoteDataManager.swift in Sources */,
 				906843602911F41700149C0F /* PokedexDetailProtocols.swift in Sources */,
 				906764E6291029020027D4B1 /* PokedexMainViewController.swift in Sources */,

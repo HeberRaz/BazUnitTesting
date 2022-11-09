@@ -63,20 +63,26 @@ final class PokedexMainViewController: UIViewController {
 
 extension PokedexMainViewController: PokedexMainViewControllerProtocol {
     func reloadInformation() {
-        DispatchQueue.main.async {
+        guaranteeMainThread {
             self.tableView.reloadData()
         }
     }
     
     func fillPokemonList() {
-        DispatchQueue.main.async {
-            guard let lastPokemon: Pokemon = self.presenter?.model.last else { return }
-            self.pokemonList.append(PokemonCellModel(from: lastPokemon))
-            self.pokemonList = self.pokemonList.sorted { previous, next in
-                return previous.id < next.id
-            }
+        guard let lastPokemon: Pokemon = self.presenter?.model.last else { return }
+        self.pokemonList.append(PokemonCellModel(from: lastPokemon))
+        self.pokemonList = self.pokemonList.sorted { previous, next in
+            return previous.id < next.id
         }
-        self.presenter?.reloadSections()
+        presenter?.reloadSections()
+    }
+    
+    private func guaranteeMainThread(_ work: @escaping () -> Void) {
+        if Thread.isMainThread {
+            work()
+        } else {
+            DispatchQueue.main.async(execute: work)
+        }
     }
 }
 
@@ -103,12 +109,10 @@ extension PokedexMainViewController: UITableViewDelegate {
 extension PokedexMainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let count: Int = presenter?.model.count else {
-            return .zero
-        }
+        let count: Int = pokemonList.count
         let displayableCount: Int = count == presenter?.totalPokemonCount
         ? presenter?.totalPokemonCount ?? .zero
-        : count + 1
+        : count + 20
         return displayableCount
     }
     

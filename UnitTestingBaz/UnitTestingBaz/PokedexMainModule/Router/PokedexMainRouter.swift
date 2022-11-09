@@ -44,7 +44,6 @@ extension PokedexMainRouter: PokedexMainRouterProtocol {
             handler()
         }))
         guaranteeMainThread {
-//            viewController.present(alert, animated: true, completion: nil)
             viewController.navigationController?.present(alert, animated: true, completion: nil)
         }
         
