@@ -56,6 +56,7 @@ protocol PokedexMainInteractorInputProtocol {
     var presenter: PokedexMainInteractorOutputProtocol? { get set }
     var remoteData: PokedexMainRemoteDataInputProtocol? { get set }
     var nextBlockUrl: String? { get set }
+    var group: DispatchGroup { get }
     
     func fetchPokemonBlock(_ urlString: String?)
     func fetchDetailFrom(pokemonName: String)

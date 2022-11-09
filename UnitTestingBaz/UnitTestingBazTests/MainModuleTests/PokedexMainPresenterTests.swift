@@ -66,7 +66,7 @@ final class PokedexMainPresenterTests: XCTestCase {
     
     func testShouldPrefetch_whenModelHasSameNumberOfElementsAsLoadedIndex_callsNewBlock() {
         // Given
-        sut.model = generatePokemonsInModel(10)
+        viewMock.pokemonList = generatePokemonCellModels(10)
         let indexPaths: [IndexPath] = generateIndexPaths(10)
         // When
         sut.shouldPrefetch(at: indexPaths)
@@ -76,7 +76,7 @@ final class PokedexMainPresenterTests: XCTestCase {
     
     func testShouldPrefetch_whenModelHasSameNumberOfElementsAsLoadedIndex_sendsNextUrl() {
         // Given
-        sut.model = generatePokemonsInModel(10)
+        viewMock.pokemonList = generatePokemonCellModels(10)
         interactorMock.nextBlockUrl = "https://nexturl.mock"
         
         let indexPaths: [IndexPath] = generateIndexPaths(10)
@@ -88,7 +88,7 @@ final class PokedexMainPresenterTests: XCTestCase {
     
     func testShouldPrefetch_whenModelHasSameNumberOfElementsAsLoadedIndex_setsFetchInProgress() {
         // Given
-        sut.model = generatePokemonsInModel(10)
+        viewMock.pokemonList = generatePokemonCellModels(10)
         interactorMock.nextBlockUrl = "https://nexturl.mock"
         
         let indexPaths: [IndexPath] = generateIndexPaths(10)
@@ -100,7 +100,7 @@ final class PokedexMainPresenterTests: XCTestCase {
     
     func testShouldPrefetch_whenMoreNumberOfElementsInModelThanLoadedIndex_doesentCallNewBlock() {
         // Given
-        sut.model = generatePokemonsInModel(11)
+        viewMock.pokemonList = generatePokemonCellModels(11)
         let indexPaths: [IndexPath] = generateIndexPaths(10)
         // When
         sut.shouldPrefetch(at: indexPaths)
@@ -110,7 +110,7 @@ final class PokedexMainPresenterTests: XCTestCase {
     
     func testShouldPrefetch_whenMoreNumberOfElementsInModelThanLoadedIndex_sendsNextUrl() {
         // Given
-        sut.model = generatePokemonsInModel(11)
+        viewMock.pokemonList = generatePokemonCellModels(11)
         interactorMock.nextBlockUrl = "https://nexturl.mock"
         
         let indexPaths: [IndexPath] = generateIndexPaths(10)
@@ -123,7 +123,7 @@ final class PokedexMainPresenterTests: XCTestCase {
     
     func testShouldPrefetch_whenMoreNumberOfElementsInModelThanLoadedIndex_keepsFetchInProgressFalse() {
         // Given
-        sut.model = generatePokemonsInModel(11)
+        viewMock.pokemonList = generatePokemonCellModels(11)
         interactorMock.nextBlockUrl = "https://nexturl.mock"
         
         let indexPaths: [IndexPath] = generateIndexPaths(10)
@@ -152,16 +152,17 @@ final class PokedexMainPresenterTests: XCTestCase {
         return indexPaths
     }
     
-    private func generatePokemonsInModel(_ number: Int) -> [Pokemon] {
-        var pokemonModel: [Pokemon] = []
-        for i in 0..<number {
-            pokemonModel.append(Pokemon(
+    private func generatePokemonCellModels(_ number: Int) -> [PokemonCellModel] {
+        var pokemonCellModels: [PokemonCellModel] = []
+        for i in 1..<number {
+            pokemonCellModels.append(PokemonCellModel(from: Pokemon(
                 from: PokemonDetail(
                     id: i,
                     name: "Mocked-Pokemon-\(i)",
                     sprites: PokemonSprites(frontDefault: "mockedimage\(i)url.jpg")),
-                imageData: Data()))
+                imageData: Data())))
+            
         }
-        return pokemonModel
+        return pokemonCellModels
     }
 }

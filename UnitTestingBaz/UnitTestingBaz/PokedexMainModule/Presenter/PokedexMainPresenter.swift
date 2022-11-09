@@ -48,7 +48,7 @@ extension PokedexMainPresenter: PokedexMainPresenterProtocol {
     }
     
     func isLoadingCell(for indexPath: IndexPath) -> Bool {
-        let currentCount: Int = view!.pokemonList.count
+        guard let currentCount: Int = view?.pokemonList.count else { return false }
         let shouldFetchNextPokemonBlock: Bool = indexPath.row >= currentCount
         return shouldFetchNextPokemonBlock
     }

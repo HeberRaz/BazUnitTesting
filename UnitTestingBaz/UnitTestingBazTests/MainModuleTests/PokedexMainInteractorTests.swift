@@ -68,16 +68,17 @@ final class PokedexMainInteractorTests: XCTestCase {
         XCTAssert(presenterMock.calls.contains(.onReceivedData))
     }
     
-    func testHandleFetchedPokemon_whenObtainsImageData_passesPokemonDataToPresenter() throws {
+    func testHandleFetchedPokemon_whenObtainsImageData_fillsPokemonList() throws {
         // Given
         let pokemonDetail: PokemonDetail = try JSONDecoder().decode(PokemonDetail.self, from: PokedexDummy().detailData)
+        sut.group.enter()
         // When
         sut.handleFetchedPokemon(pokemonDetail)
         // Then
-        XCTAssert(presenterMock.calls.contains(.onReceivedPokemon))
+        XCTAssertFalse(sut.pokemonList.isEmpty)
     }
     
-    func testHandleFetchedPokemon_whenCannotObtainImageData_returnsFunction() throws {
+    func testHandleFetchedPokemon_whenCannotObtainImageData_doesentFillPokemonList() throws {
         // Given
         let pokemonDetail: PokemonDetail = PokemonDetail(id: 1,
                                                          name: "mocked name",
@@ -85,8 +86,7 @@ final class PokedexMainInteractorTests: XCTestCase {
         // When
         sut.handleFetchedPokemon(pokemonDetail)
         // Then
-        XCTAssertFalse(presenterMock.calls.contains(.onReceivedPokemon))
-        XCTAssert(presenterMock.calls.isEmpty)
+        XCTAssert(sut.pokemonList.isEmpty)
     }
     
     func testHandleServiceError_buildsAlertModel_andCallsPresenterToShowIt() {

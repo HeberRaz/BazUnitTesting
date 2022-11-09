@@ -21,14 +21,14 @@ final class PokedexMainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter?.willFetchPokemons()
+        setup(tableView)
+        showLoader()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.backgroundColor = .white
         setupNavigationBar()
-        setup(tableView)
-        showLoader()
         registerCells()
     }
     

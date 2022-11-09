@@ -145,6 +145,7 @@ final class PokemonCell: UITableViewCell {
         name.text = ""
         icon.image = UIImage(named: "pokemon_default")
         topRibbon.isHidden = true
+        self.isUserInteractionEnabled = false
         ShadowStyler.remove(from: innerContentView)
     }
     
@@ -154,6 +155,7 @@ final class PokemonCell: UITableViewCell {
         icon.image = model.icon
         topRibbon.isHidden = false
         (topRibbon.subviews.last as? UILabel)?.text = "No. \(model.id)"
+        self.isUserInteractionEnabled = true
         ShadowStyler.apply(to: innerContentView)
     }
 }

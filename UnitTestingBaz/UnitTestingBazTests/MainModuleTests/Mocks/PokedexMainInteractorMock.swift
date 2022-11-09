@@ -22,6 +22,7 @@ final class PokedexMainInteractorMock {
     var remoteData: PokedexMainRemoteDataInputProtocol?
     
     var nextBlockUrl: String?
+    let group: DispatchGroup = DispatchGroup()
     
     // MARK: Properties
     var calls: [PokedexMainInteractorMockCalls] = []
